@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import AddActivity from "./components/AddActivity";
 import FilterActivity from "./components/FilterActivity";
 import Activities from "./components/Activities";
+import useLocalStorage from "./hooks/useLocalStorage";
 import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -9,26 +10,7 @@ import { useEffect } from "react";
 function App() {
   const [textFilter, setTextFilter] = useState("");
   const inputRef = useRef(null);
-  const [activities, setActivities] = useState([
-    {
-      id: 1,
-      activityText: "Clean bathroom",
-      category: "House work",
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      id: 2,
-      activityText: "Mow lawn",
-      category: "Yard work",
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      id: 3,
-      activityText: "Create presentation",
-      category: "Job related",
-      date: new Date().toLocaleDateString(),
-    },
-  ]);
+  const [activities, setActivities] = useLocalStorage("activities", [])
   const [radioFilter, setRadioFilter] = useState(activities);
   useEffect(() => {
     inputRef.current.checked = true; // sätt all till att vara icheckad när sidan laddas
