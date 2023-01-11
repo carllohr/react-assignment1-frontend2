@@ -1,13 +1,55 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+header{
+  text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.activities{
+  overflow-y: scroll;
+}
+
+.activities-list-header{
+  display: flex;
+  font-size: 35px;
+  margin-right: 20px;
+}
+.activities-list-header span{
+  display: flex;
+  font-size: 35px;
+  margin-right: 20px;
+  width: 155px;
+}
+
+.activity-list-item{
+  display: flex;
+  margin-top: 5px;
+}
+
+.activity-item{
+  width: 165px;
+}
+
+.date-item{
+  width: 185px;
+}
+
+.category-item{
+  width: 155px;
+}
+
+.hide{
+  display: none;
+}
+
+.hide-radio{
+  display: none;
+}
+
+.passed-date{
+  width: 185px;
+  color: red;
 }
