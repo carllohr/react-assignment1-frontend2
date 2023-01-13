@@ -17,7 +17,6 @@ const AddActivity = ({addActivity}) => {
     addActivity({activityText, category, date});
 
     setActivityText("");
-    setCategory("House work");
     setDate(new Date().toLocaleDateString())
 
   }
