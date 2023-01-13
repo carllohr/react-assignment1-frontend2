@@ -9,30 +9,22 @@ import { useEffect } from "react";
 
 function App() {
   const [textFilter, setTextFilter] = useState("");
-  const inputRef = useRef(null);
-  const [activities, setActivities] = useLocalStorage("activities", [])
+  const inputRef = useRef(null); // useRef to get radioAll element
+  const [activities, setActivities] = useLocalStorage("activities", []);
   const [radioFilter, setRadioFilter] = useState(activities);
+  const [category, setCategory] = useState();
   useEffect(() => {
-    inputRef.current.checked = true; // sätt all till att vara icheckad när sidan laddas
+    inputRef.current.checked = true; // set category to all when page loads
   }, []);
-  const handleRadioChange = (e) => { // filtrera listan på radio
+
+  const handleRadioChange = (e) => {
+    // filter list by radioinput
     const value = e.target.value;
-    if (e.target.checked !== true) return;
-    if (inputRef.current.checked === true) {
+    if (value === "All") {
       setRadioFilter(activities);
-    }
-    if (value === "House work") {
-      setRadioFilter(
-        activities.filter((activity) => {
-          if (value === activity.category) {
-            console.log(activity);
-            return activity;
-          }
-          return false;
-        })
-      );
-    }
-    if (value === "Yard work") {
+      setCategory(value);
+    } else if (value === "House work") {
+      setCategory(value);
       setRadioFilter(
         activities.filter((activity) => {
           if (value === activity.category) {
@@ -41,8 +33,18 @@ function App() {
           return false;
         })
       );
-    }
-    if (value === "Job related") {
+    } else if (value === "Yard work") {
+      setCategory(value);
+      setRadioFilter(
+        activities.filter((activity) => {
+          if (value === activity.category) {
+            return activity;
+          }
+          return false;
+        })
+      );
+    } else if (value === "Job related") {
+      setCategory(value);
       setRadioFilter(
         activities.filter((activity) => {
           if (value === activity.category) {
@@ -57,26 +59,30 @@ function App() {
   const handleFilterChange = (e) => {
     setTextFilter(e.target.value);
   };
-  const filtered = !textFilter // filter
+  const filtered = !textFilter// filtering the list, then passing it as prop to Activities
     ? radioFilter
     : radioFilter.filter((activity) =>
         activity.activityText.toLowerCase().includes(textFilter.toLowerCase())
       );
 
-  const deleteActivity = (id) => { // delete single activity
+  const deleteActivity = (id) => {
+    // delete single activity
     setActivities(activities.filter((activity) => activity.id !== id));
     setRadioFilter(radioFilter.filter((activity) => activity.id !== id));
   };
-  const deleteAllActivity = (id) => { //deletes all activities
+  const deleteAllActivity = (id) => {
+    //deletes all activities
     setActivities(activities.filter((activity) => activity.id === id));
     setRadioFilter(radioFilter.filter((activity) => activity.id === id));
   };
-  const addActivity = (activity) => { // adds input activity to and displays all activities
+  const addActivity = (activity) => {
+    // adds input activity to and displays all activities
     const id = Math.floor(Math.random() * 1000);
     const newActivity = { id, ...activity };
     setActivities([...activities, newActivity]);
-    inputRef.current.checked = true; 
-    setRadioFilter([...activities, newActivity]); 
+    if (category === newActivity.category || inputRef.current.checked) {
+      setRadioFilter([...radioFilter, newActivity]);
+    }
   };
   return (
     <div className="container">
